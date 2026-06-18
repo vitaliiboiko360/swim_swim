@@ -199,9 +199,22 @@ class CategorySlider extends StatefulWidget {
 
 enum SwimmerCategory { elite, advanced, normal, beginner }
 
+Color getCategoryColor(SwimmerCategory swimmerCategory) {
+  switch (swimmerCategory) {
+    case SwimmerCategory.elite:
+      return Colors.orange;
+    case SwimmerCategory.advanced:
+      return Colors.lightGreen;
+    case SwimmerCategory.normal:
+      return Colors.lightBlueAccent;
+    case SwimmerCategory.beginner:
+      return Colors.grey;
+  }
+}
+
 class SliderCategory extends StatelessWidget {
-  SliderCategory(this.categoryName, this.value, this.onChanged, {super.key});
-  String categoryName;
+  SliderCategory(this.swimmerCategory, this.value, this.onChanged, {super.key});
+  SwimmerCategory swimmerCategory;
   double value;
   ValueChanged<double>? onChanged;
 
@@ -213,7 +226,7 @@ class SliderCategory extends StatelessWidget {
         spacing: 20,
         children: [
           Text(
-            categoryName.toUpperCase(),
+            swimmerCategory.name.toUpperCase(),
             style: TextStyle(
               fontSize: onChanged == null ? 10 : 14,
               fontWeight: onChanged == null ? .normal : .bold,
@@ -224,9 +237,10 @@ class SliderCategory extends StatelessWidget {
               thumbShape: onChanged == null
                   ? SliderComponentShape.noThumb
                   : RoundSliderThumbShape(),
+              thumbColor: getCategoryColor(swimmerCategory),
               overlayShape: SliderComponentShape.noOverlay,
-              activeTrackColor: Theme.of(context).colorScheme.primary,
-              inactiveTrackColor: Theme.of(context).colorScheme.primary,
+              activeTrackColor: getCategoryColor(swimmerCategory),
+              inactiveTrackColor: getCategoryColor(swimmerCategory),
               trackHeight: 5.0,
               trackShape: RectangularSliderTrackShape(),
             ),
@@ -264,48 +278,60 @@ class _CategorySliderState extends State<CategorySlider> {
         top: 20,
         bottom: 20,
       ),
-      child: Row(
-        spacing: 0,
-        children: <Widget>[
-          SliderCategory(
-            SwimmerCategory.elite.name,
-            _firstSlider,
-            null,
-            // (double value,) {
-            //   setState(() {
-            //     _firstSlider = value;
-            //   });
-            // },
+      child: Column(
+        children: [
+          Row(
+            spacing: 0,
+            children: <Widget>[
+              SliderCategory(
+                SwimmerCategory.elite,
+                _firstSlider,
+                null,
+                // (double value,) {
+                //   setState(() {
+                //     _firstSlider = value;
+                //   });
+                // },
+              ),
+              SliderCategory(
+                SwimmerCategory.advanced,
+                _secondSlider,
+                // null,
+                (double value) {
+                  setState(() {
+                    _secondSlider = value;
+                  });
+                },
+              ),
+              SliderCategory(
+                SwimmerCategory.normal,
+                _thirdSlider,
+                null,
+                // (double value) {
+                //   setState(() {
+                //     _thirdSlider = value;
+                //   });
+                // },
+              ),
+              SliderCategory(
+                SwimmerCategory.beginner,
+                _forthSlider,
+                null,
+                // (double value) {
+                //   setState(() {
+                //     _forthSlider = value;
+                //   });
+                // },
+              ),
+            ],
           ),
-          SliderCategory(
-            SwimmerCategory.advanced.name,
-            _secondSlider,
-            // null,
-            (double value) {
-              setState(() {
-                _secondSlider = value;
-              });
-            },
-          ),
-          SliderCategory(
-            SwimmerCategory.normal.name,
-            _thirdSlider,
-            null,
-            // (double value) {
-            //   setState(() {
-            //     _thirdSlider = value;
-            //   });
-            // },
-          ),
-          SliderCategory(
-            SwimmerCategory.beginner.name,
-            _forthSlider,
-            null,
-            // (double value) {
-            //   setState(() {
-            //     _forthSlider = value;
-            //   });
-            // },
+          Row(
+            children: [
+              Expanded(child: SizedBox.shrink()),
+              Expanded(child: Text('1:00')),
+              Expanded(child: Text('1:30')),
+              Expanded(child: Text('2:00')),
+            ],
           ),
         ],
       ),
