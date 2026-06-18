@@ -9,6 +9,7 @@ class SwimerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Swimmer App Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
@@ -65,7 +66,12 @@ class InputScreen extends StatelessWidget {
     return SizedBox.expand(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [InputBlock()],
+        children: [
+          InputBlock(),
+          CategorySwimer(),
+          CategorySlider(),
+          SubmitButtons(),
+        ],
       ),
     );
   }
@@ -81,11 +87,17 @@ class InputBlock extends StatelessWidget {
           children: [
             Row(
               children: [
-                NumberInput(),
+                NumberInput.minutes(),
                 Text(':', style: TextStyle(fontSize: 100)),
-                NumberInput(),
+                NumberInput.seconds(),
               ],
             ),
+            Row(
+              children: [
+                Text('MIN : SEC / 100M', style: TextStyle(fontSize: 12)),
+              ],
+            ),
+            SizedBox(height: 25),
           ],
         ),
       ],
@@ -94,6 +106,18 @@ class InputBlock extends StatelessWidget {
 }
 
 class NumberInput extends StatelessWidget {
+  NumberInput.minutes({super.key}) {
+    width = 120;
+    maxLength = 1;
+  }
+  NumberInput.seconds({super.key}) {
+    width = 150;
+    maxLength = 2;
+  }
+
+  late double width;
+  late int maxLength;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -105,14 +129,15 @@ class NumberInput extends StatelessWidget {
           child: Icon(Icons.arrow_upward),
         ),
         SizedBox(
-          width: 150,
+          width: width,
           height: 150,
           child: TextField(
             style: TextStyle(fontSize: 100.0),
             keyboardType: TextInputType.number, // Opens the numeric keypad
             minLines: 1,
             maxLines: 1,
-            maxLength: 1,
+            maxLength: maxLength,
+            showCursor: false,
             textAlign: TextAlign.center,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly,
@@ -136,6 +161,200 @@ class NumberInput extends StatelessWidget {
           child: Icon(Icons.arrow_downward),
         ),
       ],
+    );
+  }
+}
+
+class CategorySwimer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: .center,
+      children: [
+        Column(
+          children: [
+            SizedBox(height: 5),
+            Text(
+              "fits to swimming level:".toUpperCase(),
+              style: TextStyle(fontSize: 14),
+            ),
+            SizedBox(height: 10),
+            Text(
+              "CATEGORY",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class CategorySlider extends StatefulWidget {
+  const CategorySlider({super.key});
+
+  @override
+  State<CategorySlider> createState() => _CategorySliderState();
+}
+
+enum SwimmerCategory { elite, advanced, normal, beginner }
+
+class SliderCategory extends StatelessWidget {
+  SliderCategory(this.categoryName, this.value, this.onChanged, {super.key});
+  String categoryName;
+  double value;
+  ValueChanged<double>? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: .center,
+        spacing: 20,
+        children: [
+          Text(
+            categoryName.toUpperCase(),
+            style: TextStyle(
+              fontSize: onChanged == null ? 10 : 14,
+              fontWeight: onChanged == null ? .normal : .bold,
+            ),
+          ),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              thumbShape: onChanged == null
+                  ? SliderComponentShape.noThumb
+                  : RoundSliderThumbShape(),
+              overlayShape: SliderComponentShape.noOverlay,
+              activeTrackColor: Theme.of(context).colorScheme.primary,
+              inactiveTrackColor: Theme.of(context).colorScheme.primary,
+              trackHeight: 5.0,
+              trackShape: RectangularSliderTrackShape(),
+            ),
+            child: Slider(
+              value: value,
+              onChanged: onChanged,
+              padding: onChanged == null
+                  ? EdgeInsetsGeometry.directional(
+                      start: 0,
+                      end: 0,
+                      top: 12,
+                      bottom: 6,
+                    )
+                  : EdgeInsetsGeometry.zero,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _CategorySliderState extends State<CategorySlider> {
+  double _firstSlider = 1;
+  double _secondSlider = 1;
+  double _thirdSlider = 1;
+  double _forthSlider = 1;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsGeometry.directional(
+        start: 40,
+        end: 40,
+        top: 20,
+        bottom: 20,
+      ),
+      child: Row(
+        spacing: 0,
+        children: <Widget>[
+          SliderCategory(
+            SwimmerCategory.elite.name,
+            _firstSlider,
+            null,
+            // (double value,) {
+            //   setState(() {
+            //     _firstSlider = value;
+            //   });
+            // },
+          ),
+          SliderCategory(
+            SwimmerCategory.advanced.name,
+            _secondSlider,
+            // null,
+            (double value) {
+              setState(() {
+                _secondSlider = value;
+              });
+            },
+          ),
+          SliderCategory(
+            SwimmerCategory.normal.name,
+            _thirdSlider,
+            null,
+            // (double value) {
+            //   setState(() {
+            //     _thirdSlider = value;
+            //   });
+            // },
+          ),
+          SliderCategory(
+            SwimmerCategory.beginner.name,
+            _forthSlider,
+            null,
+            // (double value) {
+            //   setState(() {
+            //     _forthSlider = value;
+            //   });
+            // },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SubmitButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsGeometry.directional(top: 20),
+      child: Row(
+        mainAxisAlignment: .center,
+        children: [
+          Column(
+            spacing: 10,
+            children: [
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+                  foregroundColor: Theme.of(context).colorScheme.inversePrimary,
+                ),
+                onPressed: () {},
+                child: Padding(
+                  padding: .all(20),
+                  child: Row(
+                    spacing: 10,
+                    children: [
+                      Text(
+                        "continue".toUpperCase(),
+                        style: TextStyle(fontSize: 20, fontWeight: .bold),
+                      ),
+                      Icon(Icons.arrow_forward, size: 20, fontWeight: .bold),
+                    ],
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Padding(
+                  padding: .all(5),
+                  child: Text("skip".toUpperCase()),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
