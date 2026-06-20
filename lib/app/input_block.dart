@@ -82,14 +82,12 @@ class NumberInputState extends State<NumberInput> {
     width = 120;
     maxLength = 1;
     maxValueFormatter = MaxValueFormatter(9);
-    onChanged = (String inputText) {};
     numberInputType = NumberInputType.minutes;
   }
   NumberInputState.seconds() {
     width = 150;
     maxLength = 2;
     maxValueFormatter = MaxValueFormatter(59);
-    onChanged = _applyNumber;
     numberInputType = NumberInputType.seconds;
   }
 
@@ -97,31 +95,12 @@ class NumberInputState extends State<NumberInput> {
   late double width;
   late int maxLength;
   late MaxValueFormatter maxValueFormatter;
-  late Function(String)? onChanged;
   final TextEditingController _controller = TextEditingController();
+  bool isSecondsChanged = false;
 
   @override
   void initState() {
     super.initState();
-
-    if (NumberInputType.minutes == numberInputType) return;
-
-    _controller.addListener(() {
-      String text = _controller.text;
-
-      int? number = int.tryParse(text);
-
-      if (number != null && number >= 0) {
-        String paddedText = number.toString().padLeft(2, '0');
-
-        if (paddedText != text) {
-          _controller.value = _controller.value.copyWith(
-            text: paddedText,
-            selection: TextSelection.collapsed(offset: paddedText.length),
-          );
-        }
-      }
-    });
   }
 
   Timer? _timer;
@@ -142,16 +121,11 @@ class NumberInputState extends State<NumberInput> {
     super.dispose();
   }
 
-  void _applyNumber(String inputText) {
-    int? parsedValue = int.tryParse(inputText);
-    String formattedText = (parsedValue ?? 0).toString().padLeft(2, '0');
-
-    if (_controller.text != formattedText) {
-      _controller.value = TextEditingValue(
-        text: formattedText,
-        selection: TextSelection.collapsed(offset: formattedText.length),
-      );
-    }
+  void _onTap() {
+    _controller.selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: _controller.text.length,
+    );
   }
 
   @override
@@ -166,8 +140,13 @@ class NumberInputState extends State<NumberInput> {
       );
     }
     if (NumberInputType.seconds == numberInputType) {
+      String seconds = (swimmerTime.state.seconds).toString();
+      if (swimmerTime.state.seconds < 10) {
+        seconds = seconds.padLeft(2, '0');
+      }
       _controller.value = TextEditingValue(
-        text: (swimmerTime.state.seconds).toString(),
+        text: seconds,
+        selection: .collapsed(offset: seconds.length),
       );
     }
     return Column(
@@ -206,15 +185,26 @@ class NumberInputState extends State<NumberInput> {
             maxLength: maxLength,
             showCursor: false,
             textAlign: TextAlign.center,
-            onChanged: onChanged,
+            onChanged: (String text) {
+              _controller.value = _controller.value.copyWith(text: text);
+              if (NumberInputType.minutes == numberInputType) {
+                int minutes = int.tryParse(text) ?? 0;
+                swimmerTime.updateMinutes(minutes);
+                return;
+              }
+              Future.delayed(const Duration(milliseconds: 300), () {
+                swimmerTime.updateSeconds(int.tryParse(_controller.text) ?? 0);
+              });
+            },
             controller: _controller,
+            onTap: _onTap,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.digitsOnly,
               maxValueFormatter,
             ],
             decoration: InputDecoration(
               counterText: "",
-              hintText: "0",
+              hintText: "00",
               isDense: true,
               contentPadding: EdgeInsets.symmetric(
                 horizontal: 12.0,
