@@ -2,14 +2,20 @@
 
 **State management choice ?**
 
-Bloc (https://bloclibrary.dev/ and flutter package https://pub.dev/packages/flutter_bloc)  
+Bloc (https://bloclibrary.dev/ flutter package https://pub.dev/packages/flutter_bloc)  
 it is standard for state management in Flutter application.
 
-**Brief description of project structure ?**
+**Brief description of project structure ?**  
+not every class resides in a separate file, but particular attention was paid to put all related stuff into their own file/folder.
 
 **What would do differently with more time ?**  
 Anything that improves code maintainabilty.
-Moving out unrelated stuff into ,
+
+**Explain key decisions — why you chose this approach, not just what it does**
+
+- For evalution and convenience purposes, this solution was developed for Flutter Web, so it's not needed to install mobile emulator to run it locally. But the code could be used for mobile application platforms as well.
+- For seconds text input, delay applied to correct usability.
+- Users have its own model. When fetching from API it's used to hold the data.
 
 **Task 1 — Pace Selector**  
 Requirements  
