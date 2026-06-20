@@ -1,5 +1,16 @@
 # swim_swim
 
+**State management choice ?**
+
+Bloc (https://bloclibrary.dev/ and flutter package https://pub.dev/packages/flutter_bloc)  
+it is standard for state management in Flutter application.
+
+**Brief description of project structure ?**
+
+**What would do differently with more time ?**  
+Anything that improves code maintainabilty.
+Moving out unrelated stuff into ,
+
 **Task 1 — Pace Selector**  
 Requirements  
 **Pace input (MIN : SEC)**
