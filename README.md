@@ -14,6 +14,7 @@ Anything that improves code maintainabilty.
 **Explain key decisions — why you chose this approach, not just what it does**
 
 - For evalution and convenience purposes, this solution was developed for Flutter Web, so it's not needed to install mobile emulator to run it locally. But the code could be used for mobile application platforms as well.
+- In Swimmer Time editing screen, slider has non-linear time distribution. Ranges vary by length and by actual value they change. It required to have manually calculated coefficients to be written in code.
 - For seconds text input, delay applied to correct usability.
 - Users have its own model. When fetching from API it's used to hold the data.
 
