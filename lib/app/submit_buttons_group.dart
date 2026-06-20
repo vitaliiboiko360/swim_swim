@@ -47,7 +47,7 @@ class _SubmitButtonsGroupState extends State<SubmitButtonsGroup> {
                     LoadingScreen.instance().show(
                       context: context,
                       text: errorText.isEmpty
-                          ? "Updated: $outputMessage"
+                          ? "Updated: in seconds $outputMessage"
                           : "Not updated: $errorText",
                     );
                   }
