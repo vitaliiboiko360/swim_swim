@@ -21,10 +21,6 @@ class SwimmerTimeState {
 class SwimmerTimeCubit extends Cubit<SwimmerTimeState> {
   SwimmerTimeCubit() : super(SwimmerTimeState(0, 0));
 
-  void updateTotalSeconds(int seconds) {
-    emit(state.copyWith(seconds: seconds));
-  }
-
   void updateTime(int minutes, int seconds) {
     emit(state.copyWith(minutes: minutes, seconds: seconds));
   }
