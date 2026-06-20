@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 
 const maxDisplayMinutes = 9;
@@ -25,6 +27,14 @@ class SwimmerTimeCubit extends Cubit<SwimmerTimeState> {
 
   void updateTime(int minutes, int seconds) {
     emit(state.copyWith(minutes: minutes, seconds: seconds));
+  }
+
+  void updateMinutes(int minutes) {
+    emit(state.copyWith(minutes: minutes, seconds: state.seconds));
+  }
+
+  void updateSeconds(int seconds) {
+    emit(state.copyWith(minutes: state.minutes, seconds: seconds));
   }
 
   void incrementMinutes() {
