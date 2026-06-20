@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:swim_swim/api/user_model.dart';
+import 'package:swim_swim/model/user_model.dart';
 import 'package:swim_swim/app/input_screen.dart';
 import 'package:swim_swim/screen_background/screen_background.dart';
 import 'package:swim_swim/users/user_details.dart';
