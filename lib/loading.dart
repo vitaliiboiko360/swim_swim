@@ -6,9 +6,8 @@ typedef UpdateLoadingScreen = bool Function(String text);
 
 @immutable
 class LoadingScreenController {
-  final CloseLoadingScreen close; // to closs our dialog
-  final UpdateLoadingScreen
-  update; // to update anytext with in our dialog if needed
+  final CloseLoadingScreen close;
+  final UpdateLoadingScreen update;
 
   const LoadingScreenController({required this.close, required this.update});
 }

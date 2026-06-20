@@ -14,8 +14,7 @@ class SwimmerApp extends StatelessWidget {
         brightness: Brightness.dark,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 108, 158, 245),
-          brightness:
-              Brightness.dark, // Crucial for calculating dark mode tones
+          brightness: Brightness.dark,
         ),
       ),
       routerConfig: router,
