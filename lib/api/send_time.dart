@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-const urlString = 'https://jsonplaceholder.typicode.com/posts';
-
 const requestTimeoutSeconds = 10;
+const urlString = 'https://jsonplaceholder.typicode.com/posts';
 
 Future<String> sendTime(int time) async {
   final url = Uri.parse(urlString);
@@ -19,7 +18,7 @@ Future<String> sendTime(int time) async {
         .timeout(const Duration(seconds: requestTimeoutSeconds));
 
     if (response.statusCode >= HttpStatus.ok ||
-        response.statusCode <= HttpStatus.alreadyReported) {
+        response.statusCode <= HttpStatus.accepted) {
       return jsonDecode(response.body)['pace_seconds'];
     } else {
       return Future.error('Http error: ${response.statusCode}');
