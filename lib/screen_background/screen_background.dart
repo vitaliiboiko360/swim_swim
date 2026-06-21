@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+const double screenWidth = 400;
+const double screenHeight = 800;
+const double screenBorderRadius = 60;
+
 class ScreenBackground extends StatelessWidget {
   const ScreenBackground({required this.child, super.key});
   final Widget child;
@@ -13,11 +17,11 @@ class ScreenBackground extends StatelessWidget {
           mainAxisAlignment: .center,
           children: [
             SizedBox(
-              width: 400,
-              height: 800,
+              width: screenWidth,
+              height: screenHeight,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadiusGeometry.all(Radius.circular(60)),
+                  borderRadius: .all(.circular(screenBorderRadius)),
                   color: Theme.of(context).colorScheme.surfaceBright,
                 ),
                 child: child,
