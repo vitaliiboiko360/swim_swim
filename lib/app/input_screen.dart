@@ -16,7 +16,7 @@ class InputScreen extends StatelessWidget {
         lazy: false,
         create: (BuildContext context) => SwimmerTimeCubit(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: .center,
           children: [
             InputBlock(),
             CategorySwimer(),
