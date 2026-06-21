@@ -3,19 +3,19 @@
 **State management choice ?**
 
 Bloc (https://bloclibrary.dev/ flutter package https://pub.dev/packages/flutter_bloc)  
-it is standard for state management in Flutter application.
+it is standard for state management in Flutter applications.
 
 **Brief description of project structure ?**  
 not every class resides in a separate file, but particular attention was paid to put all related stuff into their own file/folder.
 
 **What would do differently with more time ?**  
-Anything that improves code maintainabilty.
+Anything that improves code maintainabilty. Anything that could improve user's usability.
 
 **Explain key decisions — why you chose this approach, not just what it does**
 
 - For evalution and convenience purposes, this solution was developed for Flutter Web, so it's not needed to install mobile emulator to run it locally. But the code could be used for mobile application platforms as well.
 - In Swimmer Time editing screen, slider has non-linear time distribution. Ranges vary by length and by actual value they change. It required to have manually calculated coefficients to be written in code.
-- For seconds text input, delay applied to correct usability.
+- For "seconds" TextField input, a delay is applied to correct usability.
 - Users have its own model. When fetching from API it's used to hold the data.
 
 **Task 1 — Pace Selector**  
