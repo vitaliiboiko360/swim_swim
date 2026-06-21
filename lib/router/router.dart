@@ -12,13 +12,11 @@ final GoRouter router = GoRouter(
       title: 'ERROR BUILDER',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 243, 5, 5),
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFF30505)),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(
             fontSize: 20.0,
-            color: Color.fromARGB(255, 245, 11, 11),
+            color: Color(0xFFF50B0B),
             fontWeight: FontWeight.normal,
           ),
         ),
